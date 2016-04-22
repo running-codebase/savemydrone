@@ -10,7 +10,7 @@ public class ApiData {
     public boolean radiusInPolygon(LatLng latLng, double kmRadius, LatLng[] polygon) {
 
         //
-        
+
 
         return false;
     }
