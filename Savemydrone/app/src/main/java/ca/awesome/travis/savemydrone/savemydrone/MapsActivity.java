@@ -9,8 +9,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
@@ -47,7 +50,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        initializeLocationManager();
+//        initializeLocationManager();
+        goToIntroFragment();
 
     }
 
@@ -76,6 +80,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
     }
 
+    private void goToIntroFragment(){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        Fragment fragment = null;
+
+        fragment = (Fragment) new IntroScreenFragment().newInstance();
+        fragmentTransaction.addToBackStack(IntroScreenFragment.TAG);
+        fragmentTransaction.replace(R.id.popup_frame_layout, fragment,
+                IntroScreenFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -90,6 +106,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
+
+    public void doneButtonPressed(Fragment fragment){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.remove(fragment);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+
+
 
     private void addMarker(LatLng latLng, String title) {
         mMap.addMarker(new MarkerOptions().position(latLng).title(title));
