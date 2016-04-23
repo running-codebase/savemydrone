@@ -20,4 +20,26 @@
         android:layout_margin="20dp"
     />
 
+    <RelativeLayout
+        android:id="@+id/bottom_details_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="#000000"
+        android:visibility="invisible">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/bottom_instruction_textview"
+            android:textColor="#ffffff"
+            />
+    </RelativeLayout>
+
+
 </RelativeLayout>

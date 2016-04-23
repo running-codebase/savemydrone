@@ -1,6 +1,7 @@
 package ca.awesome.travis.savemydrone.savemydrone;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ public class ChecklistFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_set_flight_details, container, false);
+        final View view = inflater.inflate(R.layout.fragment_checklist, container, false);
 
 
         airspaceImageView = (ImageView) view.findViewById(R.id.airspace_imageView);
@@ -56,12 +57,8 @@ public class ChecklistFragment extends Fragment {
         return view;
     }
 
-<<<<<<< HEAD
-    private void goThroughChecklist() {
 
-=======
     private void goThroughChecklist(){
->>>>>>> origin/master
         checklist = new Checklist();
         int time = 0;
         double windGust = 10;
@@ -85,7 +82,6 @@ public class ChecklistFragment extends Fragment {
 //        } else {
 //            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
 //        }
-<<<<<<< HEAD
 
 
         if (checklist.isDark(time)) {
@@ -111,12 +107,12 @@ public class ChecklistFragment extends Fragment {
             flightAdviceTextView.setTextColor(Color.GREEN);
 
         }
-=======
->>>>>>> origin/master
     }
 
 
     private void donePressed() {
+        ((MapsActivity)getActivity()).currentState = MapsActivity.AppState.START_FLIGHT;
+
         ((MapsActivity) getActivity()).doneButtonPressed(this);
     }
 

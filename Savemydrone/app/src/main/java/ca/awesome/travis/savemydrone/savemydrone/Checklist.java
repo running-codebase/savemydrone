@@ -20,7 +20,6 @@ public class Checklist {
 //        }
 //        return c;
 //    }
-<<<<<<< HEAD
 
 
     public boolean isWindy(double windGust, double windSteady) {
@@ -34,8 +33,6 @@ public class Checklist {
             return false;
         }
     }
-=======
->>>>>>> origin/master
 
 
 

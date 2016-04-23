@@ -12,10 +12,17 @@ import android.widget.TextView;
 /**
  * Created by tco on 16-04-23.
  */
-public class IntroScreenFragment extends Fragment {
+public class IntroScreenFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = "IntroScreenFragment";
     private Context context;
+
+    private Button btnPlanFlight;
+    private Button btnFlyNow;
+    private Button btnDebrief;
+
+    private View.OnClickListener onClickListener;
+
 
 
     public static IntroScreenFragment newInstance(){
@@ -28,26 +35,34 @@ public class IntroScreenFragment extends Fragment {
             savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_intro_screen, container, false);
 
-        TextView tempTextView = (TextView) view.findViewById(R.id.title_textview);
-        tempTextView.setText("Another Title");
+        btnPlanFlight = (Button) view.findViewById(R.id.btn_plan_flight);
+        btnFlyNow = (Button) view.findViewById(R.id.btn_fly_now);
+        btnDebrief = (Button) view.findViewById(R.id.btn_debrief);
 
-        Button doneButton = (Button) view.findViewById(R.id.done_button);
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                donePressed();
-            }
-        });
+        btnPlanFlight.setOnClickListener(this);
+        btnFlyNow.setOnClickListener(this);
+        btnDebrief.setOnClickListener(this);
 
         return view;
 
     }
 
 
+    @Override
+    public void onClick(View v) {
 
-    private void donePressed() {
-        ((MapsActivity)getActivity()).doneButtonPressed(this);
+        switch(v.getId()){
+            case(R.id.btn_plan_flight):
+                ((MapsActivity)getActivity()).planFlightPressed();
+                break;
+            case (R.id.btn_fly_now):
+                ((MapsActivity)getActivity()).currentState = MapsActivity.AppState.FLIGHT_CHECK;
+                ((MapsActivity)getActivity()).flyNowButtonPressed();
+                break;
+            case(R.id.btn_debrief):
+                ((MapsActivity)getActivity()).debriefButtonPressed();
+                break;
+        }
+
     }
-
-
 }
