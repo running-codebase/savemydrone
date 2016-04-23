@@ -3,9 +3,17 @@ package ca.awesome.travis.savemydrone.savemydrone;
 /**
  * Created by Edward on 23/04/2016.
  */
-public class ChecklistFragment {
+public class Checklist {
 
 //    Logic for comparing actual steady wind speed and wind gusts to criteria wind speed and gusts
+
+    public boolean isGusty(double windGust){
+        boolean isGusty = false;
+        //Check it here
+
+        return isGusty;
+    }
+
 
     public void windCheck(double windSteady, double windGust) {
 //      Define steady and gust wind limits
@@ -16,7 +24,9 @@ public class ChecklistFragment {
 //      Determine whether the steady or gust wind limits are exceeded
         if (windSteady > windSteadyLimit | windGust > windGustLimit) {
             windCheck = false;
-        } else windCheck = true;
+        } else {
+            windCheck = true;
+        }
         return;
     }
 
