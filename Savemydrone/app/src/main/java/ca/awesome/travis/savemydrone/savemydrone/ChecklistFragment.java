@@ -1,7 +1,6 @@
 package ca.awesome.travis.savemydrone.savemydrone;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -57,19 +56,36 @@ public class ChecklistFragment extends Fragment {
         return view;
     }
 
+<<<<<<< HEAD
     private void goThroughChecklist() {
 
+=======
+    private void goThroughChecklist(){
+>>>>>>> origin/master
         checklist = new Checklist();
         int time = 0;
         double windGust = 10;
         double windSteady = 10;
 
 
-//        if (checklist.inAirspace()) {
-//            airspaceImageView.setBackground(Color.RED);
+//        if (checklist.isWindy(){
+//            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
 //        } else {
-//            airspaceImageView.setBackground(Color.GREEN);
+//            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
 //        }
+//
+//        if (checklist.isDark(){
+//            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+//        } else {
+//            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+//        }
+//
+//        if (checklist.isWindy(){
+//            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+//        } else {
+//            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+//        }
+<<<<<<< HEAD
 
 
         if (checklist.isDark(time)) {
@@ -95,6 +111,8 @@ public class ChecklistFragment extends Fragment {
             flightAdviceTextView.setTextColor(Color.GREEN);
 
         }
+=======
+>>>>>>> origin/master
     }
 
 
