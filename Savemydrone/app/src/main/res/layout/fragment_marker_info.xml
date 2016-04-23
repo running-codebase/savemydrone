@@ -4,33 +4,43 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Marker Information"
+        android:textSize="40dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@id/title">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Input summary of flight"
-                android:layout_toLeftOf="@+id/experience_image"
                 android:layout_alignParentLeft="true"
-                android:textSize="30dp"/>
+                android:layout_toLeftOf="@+id/experience_image"
+                android:text="Summary of flight"
+                android:textSize="30dp" />
 
             <ImageView
                 android:id="@+id/experience_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
-        <EditText
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Input details of your flight for future reference"/>
+            android:text="Flight details" />
     </LinearLayout>
 
     <Button
@@ -39,6 +49,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Done" />
-
 
 </RelativeLayout>
