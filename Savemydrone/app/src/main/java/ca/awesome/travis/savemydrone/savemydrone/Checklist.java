@@ -5,67 +5,39 @@ package ca.awesome.travis.savemydrone.savemydrone;
  */
 public class Checklist {
 
-//    Logic for comparing actual steady wind speed and wind gusts to criteria wind speed and gusts
-
+// Check if wind gusts exceed limit
     public boolean isGusty(double windGust){
-        boolean isGusty = false;
-        //Check it here
-
-        return isGusty;
-    }
-
-
-    public void windCheck(double windSteady, double windGust) {
-//      Define steady and gust wind limits
-        double windSteadyLimit = 10; // knots
         double windGustLimit = 15; // knots
-        boolean windCheck;
-
-//      Determine whether the steady or gust wind limits are exceeded
-        if (windSteady > windSteadyLimit | windGust > windGustLimit) {
-            windCheck = false;
-        } else {
-            windCheck = true;
-        }
-        return;
+        //Check it here
+        return windGustLimit < windGust;
     }
 
-//      Logic for comparing actual cloud base to criteria cloud base
+    // Check if steady wind speed exceeds limit
+    public boolean isWindy(double windSteady){
+        double windSteadyLimit = 10; // knots
+        //Check it here
+        return windSteadyLimit < windSteady;
+    }
 
-    public void cloudCheck(int cloudBase) {
-//      Define lower cloud base limit
+    // Check if cloud base is lower than limit
+    public boolean isCloudy(double cloudBase){
         int cloudBaseLimit=500; // feet
-        boolean cloudCheck;
-
-//      Determine whether the cloud base limits are exceeded
-        if (cloudBase <= cloudBaseLimit) {
-            cloudCheck = false;
-        } else cloudCheck = true;
-        return;
+        //Check it here
+        return cloudBaseLimit > cloudBase;
     }
 
-    public void daylightCheck(int time) {
-//      Define minimum time before sunset
+    // Check if there is sufficient light before sunset
+    public boolean isLight(int time){
         int daylightLimit=30; // minutes before sunset
-        boolean daylightCheck;
-
-//      Determine whether there is sufficient time for estimated flight duration before sunset
-        if (time > daylightLimit) {
-            daylightCheck = false;
-        } else daylightCheck = true;
-        return;
+        //Check it here
+        return daylightLimit < time;
     }
 
-    public void visibilityCheck(int visibility) {
+    // Check if there is sufficient visibility
+    public boolean isVisible(int visibility) {
 //      Define minimum visibility
         double visibilityLimit=1.5*1.609; // km (1km=1.609 statute miles)
-        boolean visibilityCheck;
-
-//      Determine whether there is sufficient visibility
-        if (visibility < visibilityLimit) {
-            visibilityCheck = false;
-        } else visibilityCheck = true;
-        return;
+        return visibilityLimit > visibility;
     }
 
 //    public void checklistCriteria(boolean airspaceCheck, boolean windCheck, boolean cloudCheck,
