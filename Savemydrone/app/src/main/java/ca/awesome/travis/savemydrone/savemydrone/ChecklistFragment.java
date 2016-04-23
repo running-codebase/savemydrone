@@ -8,20 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 /**
  * Created by tco on 16-04-23.
  */
-public class ChecklistFragment  extends Fragment {
+public class ChecklistFragment extends Fragment {
 
     public static final String TAG = "ChecklistFragment";
     private Context context;
 
-//    private EditText flightRangeEditText;
-//    private EditText flightTimeEditText;
+
+    private ImageView airspaceImageView;
+    private ImageView windImageView;
+    private ImageView daylightImageView;
+
+    private Checklist checklist;
 
 
-    public static ChecklistFragment newInstance(){
+    public static ChecklistFragment newInstance() {
         return new ChecklistFragment();
     }
 
@@ -30,9 +35,10 @@ public class ChecklistFragment  extends Fragment {
             savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_set_flight_details, container, false);
 
-//        flightRangeEditText = (EditText) view.findViewById(R.id.flight_range_editText);
-//        flightTimeEditText = (EditText) view.findViewById(R.id.flight_time_editText);
 
+        airspaceImageView = (ImageView) view.findViewById(R.id.airspace_imageView);
+        windImageView = (ImageView) view.findViewById(R.id.wind_imageView);
+        daylightImageView = (ImageView) view.findViewById(R.id.daylight_imageView);
 
         Button doneButton = (Button) view.findViewById(R.id.done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
@@ -46,8 +52,30 @@ public class ChecklistFragment  extends Fragment {
         return view;
     }
 
+    private void goThroughChecklist(){
+        checklist = new Checklist();
+
+        if (checklist.isWindy(){
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+        }
+
+        if (checklist.isDark(){
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+        }
+
+        if (checklist.isWindy(){
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+        }
+    }
+
     private void donePressed() {
-        ((MapsActivity)getActivity()).doneButtonPressed(this);
+        ((MapsActivity) getActivity()).doneButtonPressed(this);
     }
 
 }

@@ -5,67 +5,62 @@ package ca.awesome.travis.savemydrone.savemydrone;
  */
 public class Checklist {
 
-//    Logic for comparing actual steady wind speed and wind gusts to criteria wind speed and gusts
-
-    public boolean isGusty(double windGust){
-        boolean isGusty = false;
-        //Check it here
-
-        return isGusty;
-    }
-
-
-    public void windCheck(double windSteady, double windGust) {
-//      Define steady and gust wind limits
-        double windSteadyLimit = 10; // knots
+    // Check if wind gusts exceed limit
+    public boolean isGusty(double windGust) {
         double windGustLimit = 15; // knots
-        boolean windCheck;
+        //Check it here
+        return windGustLimit < windGust;
+    }
 
-//      Determine whether the steady or gust wind limits are exceeded
-        if (windSteady > windSteadyLimit | windGust > windGustLimit) {
-            windCheck = false;
+    // Check if steady wind speed exceeds limit
+    public boolean isWindySteady(double windSteady) {
+        double windSteadyLimit = 10; // knots
+        //Check it here
+        return windSteadyLimit < windSteady;
+    }
+
+    public boolean isWindy(boolean isGusty, boolean isWindySteady) {
+        if (isGusty | isWindySteady) {
+            boolean isWindy;
+            return isWindy = true;
         } else {
-            windCheck = true;
+            boolean isWindy;
+            return isWindy = false;
         }
-        return;
     }
 
-//      Logic for comparing actual cloud base to criteria cloud base
 
-    public void cloudCheck(int cloudBase) {
-//      Define lower cloud base limit
-        int cloudBaseLimit=500; // feet
-        boolean cloudCheck;
+//    // Check if cloud base is lower than limit
+//    public boolean isCloudy(double cloudBase) {
+//        int cloudBaseLimit = 500; // feet
+//        //Check it here
+//        return cloudBaseLimit > cloudBase;
+//    }
 
-//      Determine whether the cloud base limits are exceeded
-        if (cloudBase <= cloudBaseLimit) {
-            cloudCheck = false;
-        } else cloudCheck = true;
-        return;
+    // Check if there is sufficient light before sunset
+    public boolean isDark(int time) {
+        int daylightLimit = 30; // minutes before sunset
+        //Check it here
+        return daylightLimit < time;
     }
 
-    public void daylightCheck(int time) {
-//      Define minimum time before sunset
-        int daylightLimit=30; // minutes before sunset
-        boolean daylightCheck;
+//    // Check if there is sufficient visibility
+//    public boolean isLowVis(int visibility) {
+////      Define minimum visibility
+//        double visibilityLimit = 1.5 * 1.609; // km (1km=1.609 statute miles)
+//        return visibilityLimit > visibility;
+//    }
 
-//      Determine whether there is sufficient time for estimated flight duration before sunset
-        if (time > daylightLimit) {
-            daylightCheck = false;
-        } else daylightCheck = true;
-        return;
-    }
+    public String flightAdvice(boolean isGusty, boolean isWindy, boolean isDark, boolean isSafeAirspace) {
+        String flightAdvice;
 
-    public void visibilityCheck(int visibility) {
-//      Define minimum visibility
-        double visibilityLimit=1.5*1.609; // km (1km=1.609 statute miles)
-        boolean visibilityCheck;
-
-//      Determine whether there is sufficient visibility
-        if (visibility < visibilityLimit) {
-            visibilityCheck = false;
-        } else visibilityCheck = true;
-        return;
+        if (isGusty | isWindy | isDark) {
+            flightAdvice = "The weather isn't great today. Perhaps you should consider returning when it's better.";
+        } else if (!isSafeAirspace) {
+            flightAdvice = "It is not allowed to fly in this airspace. Try moving outside this restricted zone.";
+        } else
+            flightAdvice = "Checklist complete. You're cleared for take off!";
+        return flightAdvice;
     }
 
 //    public void checklistCriteria(boolean airspaceCheck, boolean windCheck, boolean cloudCheck,
