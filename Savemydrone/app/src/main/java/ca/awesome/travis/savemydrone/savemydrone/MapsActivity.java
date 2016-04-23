@@ -52,6 +52,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 //        initializeLocationManager();
         goToIntroFragment();
+//        goToFlightDetailsFragment();
+
 
     }
 
@@ -91,6 +93,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 IntroScreenFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
+
+    private void goToFlightDetailsFragment(){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        Fragment fragment = null;
+
+        fragment = (Fragment) new FlightDetailsFragment().newInstance();
+        fragmentTransaction.addToBackStack(FlightDetailsFragment.TAG);
+        fragmentTransaction.replace(R.id.popup_frame_layout, fragment,
+                IntroScreenFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

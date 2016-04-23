@@ -2,14 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="#ffffff">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/title_relative_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textview_temp" />
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Intro Screen Title"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/title_textview" />
+
+    </RelativeLayout>
 
     <Button
         android:layout_width="match_parent"
