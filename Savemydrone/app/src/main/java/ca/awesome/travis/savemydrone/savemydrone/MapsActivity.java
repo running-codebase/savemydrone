@@ -55,6 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         initializeLocationManager();
+
+
 //        goToIntroFragment();
         goToFlightDetailsFragment();
 
@@ -67,8 +69,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
-                currentLngLat = new LatLng(location.getLatitude(), location.getLongitude());
-                addMarker(currentLngLat, "You are Here");
+//                currentLngLat = new LatLng(location.getLatitude(), location.getLongitude());
+//                addMarker(currentLngLat, "You are Here");
+                updateMap();
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -111,7 +114,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private void updateMap(){
+    private void updateMap() {
+
+        if (currentLngLat != null) {
+            addCircle(currentLngLat, "", sharedPreferences.getFlightRange() * KILOMETRE, 1);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLngLat));
+            zoomToFit();
+        }
+        //Draw the circle
+        //make web call
+        //zoom to relevant area
 
     }
 
@@ -120,6 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
+        updateMap();
 //        LatLng sydney = new LatLng(-10, 151);
 //        moveToUserGPS();
 //        addCircle(sydney, "Sydney", circleRadius, 10);
@@ -136,6 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.remove(fragment);
         fragmentTransaction.commitAllowingStateLoss();
+        updateMap();
     }
 
 
@@ -145,6 +159,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(latLng).title(title));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
+    }
+
+    private void zoomToFit(){
+//        meters_per_pixel = 156543.03392 * Math.cos(latLng.lat() * Math.PI / 180) / Math.pow(2, zoom)
+        if (currentLngLat != null) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLngLat, 12.0f));
+        }
     }
 
     private void addCircle(LatLng center, String title, double radius, float width) {
