@@ -2,11 +2,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/checklistTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Pre-flight safety checklist"
+        android:textSize="30dp"/>
+
     <LinearLayout
         android:id="@+id/airspaceCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@id/checklistTitle">
 
         <ImageView
             android:layout_width="30dp"
@@ -23,8 +32,8 @@
         android:id="@+id/windCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/airspaceCheck">
+        android:layout_below="@id/airspaceCheck"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="30dp"
@@ -41,8 +50,8 @@
         android:id="@+id/cloudCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/windCheck">
+        android:layout_below="@id/windCheck"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="30dp"
@@ -60,8 +69,8 @@
         android:id="@+id/daylightCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/cloudCheck">
+        android:layout_below="@id/cloudCheck"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="30dp"
@@ -78,8 +87,8 @@
         android:id="@+id/visibilityCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/daylightCheck">
+        android:layout_below="@id/daylightCheck"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="30dp"
@@ -91,5 +100,19 @@
             android:layout_height="30dp"
             android:text="Visibility" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/done_button"
+        android:text="You are safe to fly... You are not safe to fly, depending on calculation"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="DONE" />
 
 </RelativeLayout>
