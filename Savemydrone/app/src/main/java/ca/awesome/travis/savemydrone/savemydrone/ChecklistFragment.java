@@ -39,7 +39,7 @@ public class ChecklistFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_set_flight_details, container, false);
+        final View view = inflater.inflate(R.layout.fragment_checklist, container, false);
 
 
         airspaceImageView = (ImageView) view.findViewById(R.id.airspace_imageView);
@@ -59,16 +59,14 @@ public class ChecklistFragment extends Fragment {
         return view;
     }
 
-    //<<<<<<< HEAD
+
     private void goThroughChecklist() {
 
-//=======
-//        private void goThroughChecklist(){
-//>>>>>>> origin/master
-            checklist = new Checklist();
-            int time = 0;
-            double windGust = 10;
-            double windSteady = 10;
+
+        checklist = new Checklist();
+        int time = 0;
+        double windGust = 10;
+        double windSteady = 10;
 
 
 //        if (checklist.isWindy(){
@@ -88,39 +86,38 @@ public class ChecklistFragment extends Fragment {
 //        } else {
 //            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
 //        }
-//<<<<<<<HEAD
 
 
-            if (checklist.isDark(time)) {
-                daylightImageView.setBackgroundColor(Color.RED);
-            } else {
-                daylightImageView.setBackgroundColor(Color.GREEN);
-            }
-
-            if (checklist.isWindy(windGust, windSteady)) {
-                windImageView.setBackgroundColor(Color.RED);
-            } else {
-                windImageView.setBackgroundColor(Color.GREEN);
-            }
-
-            if (checklist.isWindy(windGust, windSteady)) {
-                flightAdviceTextView.setText("The weather isn't great today. Perhaps you should consider returning when it's better.");
-                flightAdviceTextView.setTextColor(Color.RED);
-            } else if (!checklist.isSafeAirspace()) {
-                flightAdviceTextView.setText("It is not allowed to fly in this airspace. Try moving outside this restricted zone.");
-                flightAdviceTextView.setTextColor(Color.RED);
-            } else {
-                flightAdviceTextView.setText("Checklist complete. You're cleared for take off!");
-                flightAdviceTextView.setTextColor(Color.GREEN);
-            }
-//        }
-//=======
-//>>>>>>> origin/master
+        if (checklist.isDark(time)) {
+            daylightImageView.setBackgroundColor(Color.RED);
+        } else {
+            daylightImageView.setBackgroundColor(Color.GREEN);
         }
-//    }
+
+        if (checklist.isWindy(windGust, windSteady)) {
+            windImageView.setBackgroundColor(Color.RED);
+        } else {
+            windImageView.setBackgroundColor(Color.GREEN);
+        }
+
+        if (checklist.isWindy(windGust, windSteady)) {
+            flightAdviceTextView.setText("The weather isn't great today. Perhaps you should consider returning when it's better.");
+            flightAdviceTextView.setTextColor(Color.RED);
+        } else if (!checklist.isSafeAirspace()) {
+            flightAdviceTextView.setText("It is not allowed to fly in this airspace. Try moving outside this restricted zone.");
+            flightAdviceTextView.setTextColor(Color.RED);
+        } else {
+            flightAdviceTextView.setText("Checklist complete. You're cleared for take off!");
+            flightAdviceTextView.setTextColor(Color.GREEN);
+        }
+//        }
+
+    }
 
 
     private void donePressed() {
+        ((MapsActivity) getActivity()).currentState = MapsActivity.AppState.START_FLIGHT;
+
         ((MapsActivity) getActivity()).doneButtonPressed(this);
     }
 
