@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerInside"
-            android:src="@drawable/flight_checkR_logo"
+            android:src="@drawable/flight_checkr_logo"
             android:layout_margin="30dp"/>
 
 

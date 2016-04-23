@@ -1,4 +1,4 @@
-package ca.awesome.travis.savemydrone.savemydrone.clouddata;
+package ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos;
 
 import java.util.ArrayList;
 import java.util.HashMap;

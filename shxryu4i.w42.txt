@@ -1,0 +1,40 @@
+﻿Merge remote-tracking branch 'origin/master'
+
+# Conflicts:
+#	Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/Checklist.java
+#	Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/ChecklistFragment.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 4 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/Checklist.java
+#	modified:   Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/ChecklistFragment.java
+#	modified:   Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/MapsActivity.java
+#	modified:   Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/SharedPreferences.java
+#	new file:   Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/AirportsRetrofitApi.java
+#	new file:   Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/AirspacesRetrofitApi.java
+#	modified:   Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/SaveMyDroneApi.java
+#	renamed:    Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/Airport.java -> Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/pojos/Airport.java
+#	renamed:    Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/Airports.java -> Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/pojos/Airports.java
+#	new file:   Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/pojos/Airspace.java
+#	renamed:    Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/LngLatBox.java -> Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/pojos/LngLatBox.java
+#	renamed:    Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/Sky.java -> Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/pojos/Sky.java
+#	renamed:    Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/Weather.java -> Savemydrone/app/src/main/java/ca/awesome/travis/savemydrone/savemydrone/clouddata/pojos/Weather.java
+#	modified:   Savemydrone/app/src/main/res/layout/fragment_flight_report.xml
+#	modified:   Savemydrone/app/src/main/res/layout/fragment_intro_screen.xml
+#	modified:   Savemydrone/app/src/main/res/values/colors.xml
+#
+
