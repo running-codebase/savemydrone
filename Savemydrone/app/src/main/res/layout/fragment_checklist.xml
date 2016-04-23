@@ -105,7 +105,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/done_button"
+        android:layout_above="@+id/done_button"
         android:text="You are safe to fly... You are not safe to fly, depending on calculation"
         android:gravity="center"/>
 

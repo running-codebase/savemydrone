@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,7 +32,15 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import java.util.Arrays;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.Airports;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.SaveMyDroneApi;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Callback<Airports> {
 
     private LocationManager locationManager;
     private LatLng currentLngLat;
@@ -153,6 +162,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    public void getWeather(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://savemydrone.herokuapp.com/api/weather")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        // prepare call in Retrofit 2.0
+        SaveMyDroneApi saveMyDroneApi = retrofit.create(SaveMyDroneApi.class);
+
+        Call<Airports> call = saveMyDroneApi.loadQuestions("android");
+        //asynchronous call
+        call.enqueue(this);
+
+
+    }
+
+
+    @Override
+    public void onResponse(Response<Airports> response, Retrofit retrofit) {
+
+
+//        setProgressBarIndeterminateVisibility(false);
+//        ArrayAdapter<Question> adapter = (ArrayAdapter<Question>) getListAdapter();
+//        adapter.clear();
+//        adapter.addAll(response.body().items);
+    }
+
+
+    @Override
+    public void onFailure(Throwable t) {
+        Toast.makeText(MapsActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+    }
 
 
     private void addMarker(LatLng latLng, String title) {
