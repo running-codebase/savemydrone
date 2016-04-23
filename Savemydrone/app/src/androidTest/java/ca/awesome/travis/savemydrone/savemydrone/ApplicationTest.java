@@ -24,7 +24,11 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         double lat2 = 0;
         double lng2 = 10;
 
-        double correctAnswer = 10;
+        double radiusAirport = 10;
+        double radiusDrone = 20;
+
+
+        double correctAnswer = radiusAirport + radiusDrone;
         assertEquals(correctAnswer, apiData.haversine(lat1, lng1, lat2, lng2), 0.5);
 
     }
