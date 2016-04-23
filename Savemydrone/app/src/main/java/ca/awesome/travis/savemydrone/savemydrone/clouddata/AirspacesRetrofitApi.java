@@ -2,6 +2,8 @@ package ca.awesome.travis.savemydrone.savemydrone.clouddata;
 
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.List;
 
 import ca.awesome.travis.savemydrone.savemydrone.MapsActivity;
@@ -28,7 +30,7 @@ public class AirspacesRetrofitApi implements Callback<List<Airspace>> {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public void getAirspaces(){
+    public void getAirspaces(LatLng currentLngLat){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://savemydrone.herokuapp.com")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -37,7 +39,13 @@ public class AirspacesRetrofitApi implements Callback<List<Airspace>> {
         // prepare call in Retrofit 2.0
         SaveMyDroneApi saveMyDroneApi = retrofit.create(SaveMyDroneApi.class);
 
-        LngLatBox lngLatBox = new LngLatBox(-34.846389, -38.846389, 150.793333, 144.793333);
+//        LngLatBox lngLatBox = new LngLatBox(-13.336175, -52.542955, 175.781250, 108.281250); // All Australia
+        LngLatBox lngLatBox = new LngLatBox(-26.653529, -52.542955, 175.781250, 136.506500); // Lower right quadrant
+//        LngLatBox lngLatBox = new LngLatBox(currentLngLat.latitude + MapsActivity.LATITUDE_CONVERSION * 200 ,
+//                currentLngLat.latitude - MapsActivity.LATITUDE_CONVERSION * 200,
+//                currentLngLat.longitude - MapsActivity.LONGITUDE_CONVERSION * 200,
+//                currentLngLat.longitude + MapsActivity.LONGITUDE_CONVERSION * 200); // 100 km square
+
 
         Call<List<Airspace>> call = saveMyDroneApi.getAirspaces(lngLatBox);
 

@@ -5,5 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="transparentAirports">#664488ff</color>
+    <color name="transparentNoFlyZones">#66ffa500</color>
+
+
 
 </resources>

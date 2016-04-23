@@ -257,12 +257,29 @@ public class Airspace {
     }
 
     public LatLng getCircleCenter(){
+        LatLng latLng = null;
+        try {
+            JSONObject obj = new JSONObject(getArea());
+            JSONObject latLngObj = obj.getJSONObject("CentrePoint");
+            latLng = new LatLng(latLngObj.getDouble("Latitude"), latLngObj.getDouble("Longitude"));
 
-        return null;
+        } catch (JSONException e) {
+            Log.e("JSON", "Error Parsing json: " + e.toString());
+        }
+        return latLng;
     }
 
-    public float radius(){
-        return 0.0f;
+    public double getRadius(){
+        double radius = 0;
+        try {
+            JSONObject obj = new JSONObject(getArea());
+            radius = obj.getDouble("Radius");
+
+        } catch (JSONException e) {
+            Log.e("JSON", "Error Parsing json: " + e.toString());
+        }
+
+        return radius;
     }
 
 }

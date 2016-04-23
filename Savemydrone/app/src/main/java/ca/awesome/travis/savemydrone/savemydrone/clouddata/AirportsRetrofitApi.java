@@ -2,6 +2,8 @@ package ca.awesome.travis.savemydrone.savemydrone.clouddata;
 
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.List;
 
 import ca.awesome.travis.savemydrone.savemydrone.MapsActivity;
@@ -27,7 +29,7 @@ public class AirportsRetrofitApi implements Callback<List<Airport>> {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public void getAirports(){
+    public void getAirports(LatLng currentLngLat){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://savemydrone.herokuapp.com")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -36,6 +38,10 @@ public class AirportsRetrofitApi implements Callback<List<Airport>> {
         // prepare call in Retrofit 2.0
         SaveMyDroneApi saveMyDroneApi = retrofit.create(SaveMyDroneApi.class);
 
+//        LngLatBox lngLatBox = new LngLatBox(currentLngLat.latitude + MapsActivity.LATITUDE_CONVERSION * 200 ,
+//                currentLngLat.latitude - MapsActivity.LATITUDE_CONVERSION * 200,
+//                currentLngLat.longitude - MapsActivity.LONGITUDE_CONVERSION * 200,
+//                currentLngLat.longitude + MapsActivity.LONGITUDE_CONVERSION * 200);
 
         LngLatBox lngLatBox = new LngLatBox(-34.846389, -38.846389, 150.793333, 144.793333);
 

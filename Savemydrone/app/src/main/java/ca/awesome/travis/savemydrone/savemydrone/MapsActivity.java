@@ -44,15 +44,23 @@ import retrofit.Retrofit;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private static final int circleRadius = 1000000;
+    private static final int KILOMETRE = 1000;
+    private static final int NAUTICAL_MILE = 1852;
+    public static final double LATITUDE_CONVERSION = 110.574;
+    public static final double LONGITUDE_CONVERSION = 111.320; // 1 deg = 111.320*cos(latitude);
+
+    private boolean locationZoomed = false;
+
     private LocationManager locationManager;
     private LatLng currentLngLat;
     private GoogleMap mMap;
-    private static final int circleRadius = 1000000;
-    private static final int KILOMETRE = 1000;
+
 
     public SharedPreferences sharedPreferences;
     public AirspacesRetrofitApi airspacesRetrofitApi;
     public AirportsRetrofitApi airportsRetrofitApi;
+
 
 
 
@@ -73,7 +81,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         initializeLocationManager();
-        downloadData();
+        downloadData(currentLngLat);
+
 
 //        goToIntroFragment();
 //        goToFlightDetailsFragment();
@@ -109,12 +118,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
     }
 
-    private void downloadData(){
+    private void downloadData(LatLng currentLngLat){
         airspacesRetrofitApi = new AirspacesRetrofitApi(this, sharedPreferences);
-        airspacesRetrofitApi.getAirspaces();
+        airspacesRetrofitApi.getAirspaces(currentLngLat);
 
         airportsRetrofitApi = new AirportsRetrofitApi(this, sharedPreferences);
-        airportsRetrofitApi.getAirports();
+        airportsRetrofitApi.getAirports(currentLngLat);
     }
 
     private void goToIntroFragment(){
@@ -146,8 +155,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (currentLngLat != null) {
             //addCircle(currentLngLat, "", sharedPreferences.getFlightRange() * KILOMETRE, 1);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLngLat));
-            zoomToFit();
+
+            if (!locationZoomed){
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLngLat));
+                zoomToFit();
+                locationZoomed = true;
+            }
         }
         //Draw the circle
         //make web call
@@ -188,7 +201,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (Airport airport: airports){
             LatLng latLng = new LatLng(airport.getLatitude(), airport.getLongitude());
             String title = airport.getName();
-            addCircle(latLng, title, 5 * KILOMETRE, 1);
+            addCircle(latLng, title, 5 * KILOMETRE, 1, ContextCompat.getColor(this, R.color.transparentAirports));
 //            addMarker(latLng, title);
         }
         updateMap();
@@ -206,10 +219,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 List<LatLng> points = airspace.getPolygonPoints();
                 addPolygon(points);
             } else {
+                LatLng center = airspace.getCircleCenter();
+                double radius = airspace.getRadius();
+                addCircle(center, "", radius * NAUTICAL_MILE, 1, ContextCompat.getColor(this, R.color.transparentNoFlyZones));
 
-
-
-                Log.d("Polygon", "Found circle");
             }
 //            addPolygon(latLng);
 
@@ -234,17 +247,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void addCircle(LatLng center, String title, double radius, float width) {
+    private void addCircle(LatLng center, String title, double radius, float width, int fillColor) {
 
         int mStrokeColor = Color.BLACK;
-        int mFillColor = ContextCompat.getColor(this, R.color.transparentAirports);
 
         Circle circle = mMap.addCircle(new CircleOptions()
                 .center(center)
                 .radius(radius)
                 .strokeWidth(width)
                 .strokeColor(mStrokeColor)
-                .fillColor(mFillColor));
+                .fillColor(fillColor));
     }
 
     private void addPolygon(List<LatLng> points){
@@ -252,9 +264,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .addAll(points)
 //                .addHole(createRectangle(new LatLng(-22, 128), 1, 1))
 //                .addHole(createRectangle(new LatLng(-18, 133), 0.5, 1.5))
-                        .fillColor(Color.RED)
-                        .strokeColor(Color.BLUE)
-                        .strokeWidth(5)
+                        .fillColor(ContextCompat.getColor(this, R.color.transparentNoFlyZones))
+                        .strokeColor(ContextCompat.getColor(this, R.color.transparentNoFlyZones))
+                        .strokeWidth(1)
 //                .clickable(mClickabilityCheckbox.isChecked())
         );
     }
