@@ -8,8 +8,8 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="My Flight Log"
         android:gravity="center"
-        android:text="Marker Information"
         android:textSize="40dp" />
 
     <LinearLayout
@@ -22,12 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/experience_image"
-                android:text="Summary of flight"
+                android:hint="Input summary of flight"
                 android:textSize="30dp" />
 
             <ImageView
@@ -37,10 +37,10 @@
                 android:layout_alignParentRight="true" />
         </RelativeLayout>
 
-        <TextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Flight details" />
+            android:hint="Input details of your flight for future reference" />
     </LinearLayout>
 
     <Button
@@ -49,5 +49,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Done" />
+
 
 </RelativeLayout>

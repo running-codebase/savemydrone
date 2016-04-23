@@ -12,25 +12,18 @@ public class Checklist {
     public boolean isWindyGust;
     public boolean isDark;
 
-//    /**
-//     * Return true if the given point is contained inside the boundary.
-//     * See: http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-//     * @param test The point to check
-//     * @return true if the point is inside the boundary, false otherwise
-//     *
-//     */
-//    public boolean contains(Point test) {
-//        int i;
-//        int j;
-//        boolean result = false;
-//        for (i = 0, j = points.length - 1; i < points.length; j = i++) {
-//            if ((points[i].y > test.y) != (points[j].y > test.y) &&
-//                    (test.x < (points[j].x - points[i].x) * (test.y - points[i].y) / (points[j].y-points[i].y) + points[i].x)) {
-//                result = !result;
-//            }
-//        }
-//        return result;
-//    }
+//    Need to work out names of variables to pass to this method
+
+    int pnpoly(int nvert, float *vertx, float *verty, float testx, float testy)
+    {
+        int i, j, c = 0;
+        for (i = 0, j = nvert-1; i < nvert; j = i++) {
+            if ( ((verty[i]>testy) != (verty[j]>testy)) &&
+                    (testx < (vertx[j]-vertx[i]) * (testy-verty[i]) / (verty[j]-verty[i]) + vertx[i]) )
+                c = !c;
+        }
+        return c;
+    }
 
     // Check if wind gusts exceed limit
     public boolean isGusty(double windGust) {
@@ -55,12 +48,6 @@ public class Checklist {
     }
 
 
-//    // Check if cloud base is lower than limit
-//    public boolean isCloudy(double cloudBase) {
-//        int cloudBaseLimit = 500; // feet
-//        //Check it here
-//        return cloudBaseLimit > cloudBase;
-//    }
 
     // Check if there is sufficient light before sunset
     public boolean isDark(int time) {
@@ -68,13 +55,6 @@ public class Checklist {
         //Check it here
         return isDark = daylightLimit < time;
     }
-
-//    // Check if there is sufficient visibility
-//    public boolean isLowVis(int visibility) {
-////      Define minimum visibility
-//        double visibilityLimit = 1.5 * 1.609; // km (1km=1.609 statute miles)
-//        return visibilityLimit > visibility;
-//    }
 
     public String flightAdvice(boolean isGusty, boolean isWindy, boolean isDark, boolean isSafeAirspace) {
         String flightAdvice;
@@ -87,6 +67,19 @@ public class Checklist {
             flightAdvice = "Checklist complete. You're cleared for take off!";
         return flightAdvice;
     }
+//    // Check if cloud base is lower than limit
+//    public boolean isCloudy(double cloudBase) {
+//        int cloudBaseLimit = 500; // feet
+//        //Check it here
+//        return cloudBaseLimit > cloudBase;
+//    }
+
+//    // Check if there is sufficient visibility
+//    public boolean isLowVis(int visibility) {
+////      Define minimum visibility
+//        double visibilityLimit = 1.5 * 1.609; // km (1km=1.609 statute miles)
+//        return visibilityLimit > visibility;
+//    }
 
 //    public void checklistCriteria(boolean airspaceCheck, boolean windCheck, boolean cloudCheck,
 //                                  boolean daylightCheck, boolean visibilityCheck) {
