@@ -191,7 +191,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void updateMap() {
 
         if (currentLngLat != null) {
-            //addCircle(currentLngLat, "", sharedPreferences.getFlightRange() * KILOMETRE, 1);
 
             if (!locationZoomed){
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLngLat));
@@ -203,6 +202,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //make web call
         //zoom to relevant area
 
+    }
+
+    public void setFlightRadius(){
+        if (currentLngLat!= null){
+            addCircle(currentLngLat, "", sharedPreferences.getFlightRange() * KILOMETRE, 1, ContextCompat.getColor(this, R.color.flightRadius));
+        }
     }
 
     @Override
@@ -284,6 +289,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case FLIGHT_CHECK:
                 bottomInstructionTextview.setText("FLIGHT CHECK");
                 bottomDetailsRelativeLayout.setVisibility(View.VISIBLE);
+                setFlightRadius();
                 break;
 
             case START_FLIGHT:

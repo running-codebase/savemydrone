@@ -4,8 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="transparentAirports">#664488ff</color>
+    <color name="transparentAirports">#66ff0000</color>
     <color name="transparentNoFlyZones">#66ffa500</color>
+    <color name="flightRadius">#664488ff</color>
 
 
 
