@@ -37,16 +37,19 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/btn_plan_flight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Plan a future flight" />
 
             <Button
+                android:id="@+id/btn_fly_now"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fly now!" />
 
             <Button
+                android:id="@+id/btn_debrief"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Debrief flight" />
