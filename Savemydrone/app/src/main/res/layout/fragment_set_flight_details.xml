@@ -64,7 +64,8 @@
 
             android:inputType="numberDecimal"
             android:ems="10"
-            android:id="@+id/flight_range_editText" />
+            android:id="@+id/flight_range_editText"
+            android:hint="Kilometres"/>
 
 
     </RelativeLayout>
@@ -91,15 +92,19 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/flight_time_title_textview"
 
-            android:text="Enter the maximum flight duration."
+            android:text="Enter the maximum flight duration in minutes."
             />
 
-        <Chronometer
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/chronometer"
             android:layout_below="@+id/flight_time_description_textview"
-            />
+
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/flight_time_editText"
+            android:hint="Minutes"/>
+
 
     </RelativeLayout>
 
