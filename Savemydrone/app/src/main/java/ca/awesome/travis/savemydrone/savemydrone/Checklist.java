@@ -5,39 +5,51 @@ package ca.awesome.travis.savemydrone.savemydrone;
  */
 public class Checklist {
 
-// Check if wind gusts exceed limit
-    public boolean isGusty(double windGust){
+    // Check if wind gusts exceed limit
+    public boolean isGusty(double windGust) {
         double windGustLimit = 15; // knots
         //Check it here
         return windGustLimit < windGust;
     }
 
     // Check if steady wind speed exceeds limit
-    public boolean isWindy(double windSteady){
+    public boolean isWindy(double windSteady) {
         double windSteadyLimit = 10; // knots
         //Check it here
         return windSteadyLimit < windSteady;
     }
 
     // Check if cloud base is lower than limit
-    public boolean isCloudy(double cloudBase){
-        int cloudBaseLimit=500; // feet
+    public boolean isCloudy(double cloudBase) {
+        int cloudBaseLimit = 500; // feet
         //Check it here
         return cloudBaseLimit > cloudBase;
     }
 
     // Check if there is sufficient light before sunset
-    public boolean isLight(int time){
-        int daylightLimit=30; // minutes before sunset
+    public boolean isDark(int time) {
+        int daylightLimit = 30; // minutes before sunset
         //Check it here
         return daylightLimit < time;
     }
 
     // Check if there is sufficient visibility
-    public boolean isVisible(int visibility) {
+    public boolean isLowVis(int visibility) {
 //      Define minimum visibility
-        double visibilityLimit=1.5*1.609; // km (1km=1.609 statute miles)
+        double visibilityLimit = 1.5 * 1.609; // km (1km=1.609 statute miles)
         return visibilityLimit > visibility;
+    }
+
+    public String flightAdvice(boolean isGusty, boolean isWindy, boolean isCloudy, boolean isDark, boolean isLowVis, boolean isSafeAirspace) {
+        String flightAdvice;
+
+        if (isGusty | isWindy | isCloudy | isDark | isLowVis) {
+            flightAdvice = "The weather isn't great today. Perhaps you should consider returning when it's better.";
+        } else if (!isSafeAirspace) {
+            flightAdvice = "It is not allowed to fly in this airspace. Try moving outside this restricted zone.";
+        } else
+            flightAdvice = "Checklist complete. You're cleared for take off!"
+        return flightAdvice;
     }
 
 //    public void checklistCriteria(boolean airspaceCheck, boolean windCheck, boolean cloudCheck,
