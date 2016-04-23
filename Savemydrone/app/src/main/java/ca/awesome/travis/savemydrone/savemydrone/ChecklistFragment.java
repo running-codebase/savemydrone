@@ -23,6 +23,7 @@ public class ChecklistFragment extends Fragment {
     private ImageView windImageView;
     private ImageView daylightImageView;
 
+    private Checklist checklist;
 
 
     public static ChecklistFragment newInstance() {
@@ -49,6 +50,28 @@ public class ChecklistFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void goThroughChecklist(){
+        checklist = new Checklist();
+
+        if (checklist.isWindy(){
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+        }
+
+        if (checklist.isDark(){
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+        }
+
+        if (checklist.isWindy(){
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+        }
     }
 
     private void donePressed() {

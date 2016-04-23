@@ -19,8 +19,14 @@ public class Checklist {
         return windSteadyLimit < windSteady;
     }
 
-    public boolean isWindy(boolean isGusty, boolean isWindySteady){
-        return isGusty | isWindySteady;
+    public boolean isWindy(boolean isGusty, boolean isWindySteady) {
+        if (isGusty | isWindySteady) {
+            boolean isWindy;
+            return isWindy = true;
+        } else {
+            boolean isWindy;
+            return isWindy = false;
+        }
     }
 
 
@@ -48,7 +54,7 @@ public class Checklist {
     public String flightAdvice(boolean isGusty, boolean isWindy, boolean isDark, boolean isSafeAirspace) {
         String flightAdvice;
 
-        if (isGusty | isWindy | isDark ) {
+        if (isGusty | isWindy | isDark) {
             flightAdvice = "The weather isn't great today. Perhaps you should consider returning when it's better.";
         } else if (!isSafeAirspace) {
             flightAdvice = "It is not allowed to fly in this airspace. Try moving outside this restricted zone.";
