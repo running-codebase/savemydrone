@@ -1,6 +1,7 @@
 package ca.awesome.travis.savemydrone.savemydrone;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -52,26 +53,29 @@ public class ChecklistFragment extends Fragment {
         return view;
     }
 
-    private void goThroughChecklist(){
+    private void goThroughChecklist() {
         checklist = new Checklist();
 
-        if (checklist.isWindy(){
-            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+//        if (checklist.inAirspace()) {
+//            airspaceImageView.setBackground(Color.RED);
+//        } else {
+//            airspaceImageView.setBackground(Color.GREEN);
+//        }
+
+        if (checklist.isWindy) {
+            windImageView.setBackgroundColor(Color.RED);
         } else {
-            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+            windImageView.setBackgroundColor(Color.GREEN);
         }
 
-        if (checklist.isDark(){
-            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
+        if (checklist.isDark) {
+            daylightImageView.setBackgroundColor(Color.RED);
         } else {
-            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
+            daylightImageView.setBackgroundColor(Color.GREEN);
         }
 
-        if (checklist.isWindy(){
-            windImageView.setBackground(getResources().getColor(android.R.color.holo_red_dark));
-        } else {
-            windImageView.setBackground(getResources().getColor(android.R.color.holo_green_dark));
-        }
+
+
     }
 
     private void donePressed() {

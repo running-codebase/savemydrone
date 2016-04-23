@@ -1,30 +1,55 @@
 package ca.awesome.travis.savemydrone.savemydrone;
 
+import android.graphics.Point;
+
 /**
  * Created by Edward on 23/04/2016.
  */
 public class Checklist {
 
+    public boolean isWindy;
+    public boolean isWindySteady;
+    public boolean isWindyGust;
+    public boolean isDark;
+
+//    /**
+//     * Return true if the given point is contained inside the boundary.
+//     * See: http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+//     * @param test The point to check
+//     * @return true if the point is inside the boundary, false otherwise
+//     *
+//     */
+//    public boolean contains(Point test) {
+//        int i;
+//        int j;
+//        boolean result = false;
+//        for (i = 0, j = points.length - 1; i < points.length; j = i++) {
+//            if ((points[i].y > test.y) != (points[j].y > test.y) &&
+//                    (test.x < (points[j].x - points[i].x) * (test.y - points[i].y) / (points[j].y-points[i].y) + points[i].x)) {
+//                result = !result;
+//            }
+//        }
+//        return result;
+//    }
+
     // Check if wind gusts exceed limit
     public boolean isGusty(double windGust) {
         double windGustLimit = 15; // knots
         //Check it here
-        return windGustLimit < windGust;
+        return isWindyGust = windGustLimit < windGust;
     }
 
     // Check if steady wind speed exceeds limit
-    public boolean isWindySteady(double windSteady) {
+    public boolean isSteady(double windSteady) {
         double windSteadyLimit = 10; // knots
         //Check it here
-        return windSteadyLimit < windSteady;
+        return isWindySteady = windSteadyLimit < windSteady;
     }
 
-    public boolean isWindy(boolean isGusty, boolean isWindySteady) {
-        if (isGusty | isWindySteady) {
-            boolean isWindy;
+    public boolean isWindy(boolean isWindyGust, boolean isWindySteady) {
+        if (isWindyGust | isWindySteady) {
             return isWindy = true;
         } else {
-            boolean isWindy;
             return isWindy = false;
         }
     }
@@ -41,7 +66,7 @@ public class Checklist {
     public boolean isDark(int time) {
         int daylightLimit = 30; // minutes before sunset
         //Check it here
-        return daylightLimit < time;
+        return isDark = daylightLimit < time;
     }
 
 //    // Check if there is sufficient visibility
