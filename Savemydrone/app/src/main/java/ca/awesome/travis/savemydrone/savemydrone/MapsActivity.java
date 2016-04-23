@@ -32,7 +32,9 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import java.util.Arrays;
 import java.util.List;
 
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.Airport;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.Airports;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.LngLatBox;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.SaveMyDroneApi;
 import retrofit.Call;
 import retrofit.Callback;
@@ -40,7 +42,7 @@ import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Callback<Airports> {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Callback<List<Airport>> {
 
     private LocationManager locationManager;
     private LatLng currentLngLat;
@@ -63,11 +65,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        initializeLocationManager();
+//        initializeLocationManager();
 
 
 //        goToIntroFragment();
-        goToFlightDetailsFragment();
+//        goToFlightDetailsFragment();
+
+        getWeather();
 
 
     }
@@ -164,35 +168,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void getWeather(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://savemydrone.herokuapp.com/api/weather")
+                .baseUrl("https://savemydrone.herokuapp.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         // prepare call in Retrofit 2.0
         SaveMyDroneApi saveMyDroneApi = retrofit.create(SaveMyDroneApi.class);
 
-        Call<Airports> call = saveMyDroneApi.loadQuestions("android");
-        //asynchronous call
+
+        LngLatBox lngLatBox = new LngLatBox(-34.846389, -38.846389, 150.793333, 144.793333);
+        Call<List<Airport>> call = saveMyDroneApi.getAirportWeathers(lngLatBox);
+
         call.enqueue(this);
-
-
     }
 
 
     @Override
-    public void onResponse(Response<Airports> response, Retrofit retrofit) {
+    public void onResponse(Response<List<Airport>> response, Retrofit retrofit) {
 
+        sharedPreferences.setAirports(response.body());
+        List<Airport> airports = sharedPreferences.getAirports();
+        drawAirports();
+//        Toast.makeText(MapsActivity.this, "Size is: " + airports.toString() , Toast.LENGTH_SHORT).show();
 
-//        setProgressBarIndeterminateVisibility(false);
-//        ArrayAdapter<Question> adapter = (ArrayAdapter<Question>) getListAdapter();
-//        adapter.clear();
-//        adapter.addAll(response.body().items);
     }
 
 
     @Override
     public void onFailure(Throwable t) {
         Toast.makeText(MapsActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void drawAirports(){
+        List<Airport> airports = sharedPreferences.getAirports();
+
+        for (Airport airport: airports){
+            LatLng latLng = new LatLng(airport.getLatitude(), airport.getLongitude());
+            String title = airport.getName();
+            addMarker(latLng, title);
+        }
+
     }
 
 

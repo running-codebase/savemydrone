@@ -159,8 +159,10 @@ public class Airport {
      * The weather
      */
     public void setWeather(Weather weather) {
+
         this.weather = weather;
     }
+
 
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
