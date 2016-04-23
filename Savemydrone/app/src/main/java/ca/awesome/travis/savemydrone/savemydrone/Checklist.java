@@ -13,18 +13,23 @@ public class Checklist {
     }
 
     // Check if steady wind speed exceeds limit
-    public boolean isWindy(double windSteady) {
+    public boolean isWindySteady(double windSteady) {
         double windSteadyLimit = 10; // knots
         //Check it here
         return windSteadyLimit < windSteady;
     }
 
-    // Check if cloud base is lower than limit
-    public boolean isCloudy(double cloudBase) {
-        int cloudBaseLimit = 500; // feet
-        //Check it here
-        return cloudBaseLimit > cloudBase;
+    public boolean isWindy(boolean isGusty, boolean isWindySteady){
+        return isGusty | isWindySteady;
     }
+
+
+//    // Check if cloud base is lower than limit
+//    public boolean isCloudy(double cloudBase) {
+//        int cloudBaseLimit = 500; // feet
+//        //Check it here
+//        return cloudBaseLimit > cloudBase;
+//    }
 
     // Check if there is sufficient light before sunset
     public boolean isDark(int time) {
@@ -33,22 +38,22 @@ public class Checklist {
         return daylightLimit < time;
     }
 
-    // Check if there is sufficient visibility
-    public boolean isLowVis(int visibility) {
-//      Define minimum visibility
-        double visibilityLimit = 1.5 * 1.609; // km (1km=1.609 statute miles)
-        return visibilityLimit > visibility;
-    }
+//    // Check if there is sufficient visibility
+//    public boolean isLowVis(int visibility) {
+////      Define minimum visibility
+//        double visibilityLimit = 1.5 * 1.609; // km (1km=1.609 statute miles)
+//        return visibilityLimit > visibility;
+//    }
 
-    public String flightAdvice(boolean isGusty, boolean isWindy, boolean isCloudy, boolean isDark, boolean isLowVis, boolean isSafeAirspace) {
+    public String flightAdvice(boolean isGusty, boolean isWindy, boolean isDark, boolean isSafeAirspace) {
         String flightAdvice;
 
-        if (isGusty | isWindy | isCloudy | isDark | isLowVis) {
+        if (isGusty | isWindy | isDark ) {
             flightAdvice = "The weather isn't great today. Perhaps you should consider returning when it's better.";
         } else if (!isSafeAirspace) {
             flightAdvice = "It is not allowed to fly in this airspace. Try moving outside this restricted zone.";
         } else
-            flightAdvice = "Checklist complete. You're cleared for take off!"
+            flightAdvice = "Checklist complete. You're cleared for take off!";
         return flightAdvice;
     }
 
