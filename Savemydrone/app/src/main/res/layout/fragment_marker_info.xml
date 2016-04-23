@@ -17,7 +17,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Input summary of flight"
-                android:layout_toLeftOf="@id/experience_image"
+                android:layout_toLeftOf="@+id/experience_image"
                 android:layout_alignParentLeft="true"
                 android:textSize="30dp"/>
 
