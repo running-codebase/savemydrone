@@ -2,17 +2,18 @@ package ca.awesome.travis.savemydrone.savemydrone;
 
 import java.util.List;
 
-import ca.awesome.travis.savemydrone.savemydrone.clouddata.Airport;
-import ca.awesome.travis.savemydrone.savemydrone.clouddata.Airports;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Airport;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Airspace;
 
 /**
  * Created by tco on 16-04-23.
  */
 public class SharedPreferences {
 
-    private int flightTime;
-    private float flightRange;
+    private int flightTime = 5;
+    private float flightRange = 3;
     private List<Airport> airports;
+    private List<Airspace> airspaces;
 
     public SharedPreferences(){
 
@@ -40,6 +41,14 @@ public class SharedPreferences {
 
     public void setAirports(List<Airport> airports) {
         this.airports = airports;
+    }
+
+    public List<Airspace> getAirspaces(){
+        return airspaces;
+    }
+
+    public void setAirspaces(List<Airspace> airspaces){
+        this.airspaces = airspaces;
     }
 
 }

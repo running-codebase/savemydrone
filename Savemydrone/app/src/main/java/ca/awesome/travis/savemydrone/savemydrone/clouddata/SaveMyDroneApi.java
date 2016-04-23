@@ -2,11 +2,11 @@ package ca.awesome.travis.savemydrone.savemydrone.clouddata;
 
 import java.util.List;
 
-import retrofit.Callback;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Airport;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Airspace;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.LngLatBox;
 import retrofit.http.Body;
-import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.Query;
 import retrofit.Call;
 
 /**
@@ -17,6 +17,9 @@ public interface SaveMyDroneApi {
 
 //    @GET("/2.2/questions?order=desc&sort=creation&site=stackoverflow")
 //    Call<Airports> loadQuestions(@Query("tagged") String tags);
+
+    @POST("/api/airspace")
+    Call<List<Airspace>> getAirspaces(@Body LngLatBox lngLatBox);
 
 
     @POST("/api/weather")
