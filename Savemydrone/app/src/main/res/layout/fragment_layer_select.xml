@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/CheckBox1"
-                android:text="Restricted Airspace" />
+                android:text="Restricted Areas and Danger Areas" />
 
         </RelativeLayout>
 

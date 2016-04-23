@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Created by tco on 16-04-23.
@@ -23,6 +24,8 @@ public class ChecklistFragment extends Fragment {
     private ImageView airspaceImageView;
     private ImageView windImageView;
     private ImageView daylightImageView;
+
+    private TextView flightAdviceTextView;
 
     private Checklist checklist;
 
@@ -40,6 +43,7 @@ public class ChecklistFragment extends Fragment {
         airspaceImageView = (ImageView) view.findViewById(R.id.airspace_imageView);
         windImageView = (ImageView) view.findViewById(R.id.wind_imageView);
         daylightImageView = (ImageView) view.findViewById(R.id.daylight_imageView);
+        flightAdviceTextView = (TextView) view.findViewById(R.id.flightAdvice_TextView);
 
         Button doneButton = (Button) view.findViewById(R.id.done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +58,12 @@ public class ChecklistFragment extends Fragment {
     }
 
     private void goThroughChecklist() {
+
         checklist = new Checklist();
+        int time = 0;
+        double windGust = 10;
+        double windSteady = 10;
+
 
 //        if (checklist.inAirspace()) {
 //            airspaceImageView.setBackground(Color.RED);
@@ -62,21 +71,32 @@ public class ChecklistFragment extends Fragment {
 //            airspaceImageView.setBackground(Color.GREEN);
 //        }
 
-        if (checklist.isWindy) {
-            windImageView.setBackgroundColor(Color.RED);
-        } else {
-            windImageView.setBackgroundColor(Color.GREEN);
-        }
 
-        if (checklist.isDark) {
+        if (checklist.isDark(time)) {
             daylightImageView.setBackgroundColor(Color.RED);
         } else {
             daylightImageView.setBackgroundColor(Color.GREEN);
         }
 
+        if (checklist.isWindy(windGust, windSteady)) {
+            windImageView.setBackgroundColor(Color.RED);
+        } else {
+            windImageView.setBackgroundColor(Color.GREEN);
+        }
 
+        if (checklist.isWindy(windGust, windSteady)) {
+            flightAdviceTextView.setText("The weather isn't great today. Perhaps you should consider returning when it's better.");
+            flightAdviceTextView.setTextColor(Color.RED);
+        } else if (!checklist.isSafeAirspace()) {
+            flightAdviceTextView.setText("It is not allowed to fly in this airspace. Try moving outside this restricted zone.");
+            flightAdviceTextView.setTextColor(Color.RED);
+        } else {
+            flightAdviceTextView.setText("Checklist complete. You're cleared for take off!");
+            flightAdviceTextView.setTextColor(Color.GREEN);
 
+        }
     }
+
 
     private void donePressed() {
         ((MapsActivity) getActivity()).doneButtonPressed(this);
