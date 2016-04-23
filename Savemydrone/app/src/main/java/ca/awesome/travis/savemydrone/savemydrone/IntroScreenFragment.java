@@ -28,8 +28,8 @@ public class IntroScreenFragment extends Fragment {
             savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_intro_screen, container, false);
 
-        TextView tempTextView = (TextView) view.findViewById(R.id.textview_temp);
-        tempTextView.setText("TEST");
+        TextView tempTextView = (TextView) view.findViewById(R.id.title_textview);
+        tempTextView.setText("Another Title");
 
         Button doneButton = (Button) view.findViewById(R.id.done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
