@@ -8,38 +8,32 @@
         android:id="@+id/title_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/flight_checkR_logo"
+            android:layout_margin="30dp"/>
+
 
         <TextView
-            android:id="@+id/title_textview"
+            android:id="@+id/byline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="DroneCheck"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30dp" />
-
-        <TextView
-            android:id="@+id/explanation_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title_textview"
+            android:layout_below="@id/logo"
             android:layout_centerHorizontal="true"
             android:text="Helping you to maximise mission success and operate safely"
             android:gravity="center"
+            android:layout_margin="10dp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <ImageView
-            android:id="@+id/droneImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/explanation_textview"
-            android:scaleType="centerInside"
-            android:src="@drawable/drone" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/droneImage"
+            android:layout_below="@id/byline"
             android:orientation="vertical">
 
             <Button
@@ -60,14 +54,7 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-
-    <Button
-        android:id="@+id/done_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Done" />
+    
 
 
 </RelativeLayout>
