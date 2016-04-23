@@ -14,9 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,9 +42,7 @@ import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
-
-
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final int circleRadius = 1000000;
     private static final int KILOMETRE = 1000;
@@ -55,22 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final double LATITUDE_CONVERSION = 110.574;
     public static final double LONGITUDE_CONVERSION = 111.320; // 1 deg = 111.320*cos(latitude);
 
-    public enum AppState {
-        PRE_FLIGHT,
-        FLIGHT_CHECK,
-        START_FLIGHT,
-        IN_FLIGHT,
-        FLIGHT_OVER
-    }
-
-    public AppState currentState = AppState.PRE_FLIGHT;
-
     private boolean locationZoomed = false;
-    private boolean dataDownloaded = false;
-
-
-    private TextView bottomInstructionTextview;
-    private RelativeLayout bottomDetailsRelativeLayout;
 
     private LocationManager locationManager;
     private LatLng currentLngLat;
@@ -89,9 +69,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        bottomInstructionTextview = (TextView) findViewById(R.id.bottom_instruction_textview);
-        bottomDetailsRelativeLayout = (RelativeLayout) findViewById(R.id.bottom_details_relative_layout);
-        bottomDetailsRelativeLayout.setOnClickListener(this);
 
         sharedPreferences = new SharedPreferences();
 
@@ -107,8 +84,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         downloadData(currentLngLat);
 
 
+//        goToIntroFragment();
+//        goToFlightDetailsFragment();
 
-        goToIntroFragment();
+
+
 
     }
 
@@ -139,16 +119,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void downloadData(LatLng currentLngLat){
-        if (!dataDownloaded){
+        airspacesRetrofitApi = new AirspacesRetrofitApi(this, sharedPreferences);
+        airspacesRetrofitApi.getAirspaces(currentLngLat);
 
-            airspacesRetrofitApi = new AirspacesRetrofitApi(this, sharedPreferences);
-            airspacesRetrofitApi.getAirspaces(currentLngLat);
-
-            airportsRetrofitApi = new AirportsRetrofitApi(this, sharedPreferences);
-            airportsRetrofitApi.getAirports(currentLngLat);
-            dataDownloaded = true;
-        }
-
+        airportsRetrofitApi = new AirportsRetrofitApi(this, sharedPreferences);
+        airportsRetrofitApi.getAirports(currentLngLat);
     }
 
     private void goToIntroFragment(){
@@ -175,26 +150,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    private void goToFlightCheckFragment(){
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        Fragment fragment = null;
-
-        fragment = (Fragment) new ChecklistFragment().newInstance();
-        fragmentTransaction.addToBackStack(ChecklistFragment.TAG);
-        fragmentTransaction.replace(R.id.popup_frame_layout, fragment,
-                IntroScreenFragment.TAG);
-        fragmentTransaction.commitAllowingStateLoss();
-
-    }
-
 
     private void updateMap() {
 
         if (currentLngLat != null) {
+            //addCircle(currentLngLat, "", sharedPreferences.getFlightRange() * KILOMETRE, 1);
 
             if (!locationZoomed){
-
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLngLat));
                 zoomToFit();
                 locationZoomed = true;
@@ -204,12 +166,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //make web call
         //zoom to relevant area
 
-    }
-
-    public void setFlightRadius(){
-        if (currentLngLat!= null){
-            addCircle(currentLngLat, "", sharedPreferences.getFlightRange() * KILOMETRE, 1, ContextCompat.getColor(this, R.color.flightRadius));
-        }
     }
 
     @Override
@@ -234,14 +190,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.remove(fragment);
         fragmentTransaction.commitAllowingStateLoss();
-
-        updateBottomBarView();
-
         updateMap();
     }
 
 
-    public void drawAirports() {
+
+    public void drawAirports(){
         List<Airport> airports = sharedPreferences.getAirports();
 
         for (Airport airport: airports){
@@ -250,7 +204,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             addCircle(latLng, title, 5 * KILOMETRE, 1, ContextCompat.getColor(this, R.color.transparentAirports));
 //            addMarker(latLng, title);
         }
-
         updateMap();
 
     }
@@ -280,35 +233,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         updateMap();
     }
 
-    public void updateBottomBarView(){
-
-        switch(currentState){
-            case PRE_FLIGHT:
-                bottomDetailsRelativeLayout.setVisibility(View.INVISIBLE);
-                break;
-
-            case FLIGHT_CHECK:
-                bottomInstructionTextview.setText("FLIGHT CHECK");
-                bottomDetailsRelativeLayout.setVisibility(View.VISIBLE);
-                setFlightRadius();
-                break;
-
-            case START_FLIGHT:
-                bottomInstructionTextview.setText("START FLIGHT");
-                bottomDetailsRelativeLayout.setVisibility(View.VISIBLE);
-                break;
-
-            case IN_FLIGHT:
-
-                break;
-
-            case FLIGHT_OVER:
-                bottomInstructionTextview.setText("CREATE BREIFING");
-
-                break;
-        }
-
-    }
 
     private void addMarker(LatLng latLng, String title) {
         mMap.addMarker(new MarkerOptions().position(latLng).title(title));
@@ -370,51 +294,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-    ///----------------------------------
-
-    public void planFlightPressed(){
-        //TODO implement
-    }
-
-    public void flyNowButtonPressed(){
-        goToFlightDetailsFragment();
-    }
-
-    public void debriefButtonPressed(){
-        //TODO implement
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        if (v.getId() == R.id.bottom_details_relative_layout){
-            switch(currentState){
-                case PRE_FLIGHT:
-                    bottomDetailsRelativeLayout.setVisibility(View.INVISIBLE);
-                    break;
-
-                case FLIGHT_CHECK:
-                    bottomDetailsRelativeLayout.setVisibility(View.INVISIBLE);
-                    goToFlightCheckFragment();
-
-                    break;
-
-                case START_FLIGHT:
-                    bottomInstructionTextview.setText("IN FLIGHT");
-                    currentState = AppState.IN_FLIGHT;
-                    break;
-
-                case IN_FLIGHT:
-                    bottomInstructionTextview.setText("CREATE BREIFING");
-                    currentState = AppState.IN_FLIGHT;
-                    break;
-
-                case FLIGHT_OVER:
-                    bottomInstructionTextview.setText("CREATE BREIFING");
-                    break;
-        }
-}
-
-    }
 }

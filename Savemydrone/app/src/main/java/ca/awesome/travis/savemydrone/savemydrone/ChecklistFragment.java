@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import retrofit.http.HEAD;
+
 /**
  * Created by tco on 16-04-23.
  */
@@ -58,7 +60,9 @@ public class ChecklistFragment extends Fragment {
     }
 
 
-    private void goThroughChecklist(){
+    private void goThroughChecklist() {
+
+
         checklist = new Checklist();
         int time = 0;
         double windGust = 10;
@@ -105,13 +109,14 @@ public class ChecklistFragment extends Fragment {
         } else {
             flightAdviceTextView.setText("Checklist complete. You're cleared for take off!");
             flightAdviceTextView.setTextColor(Color.GREEN);
-
         }
+//        }
+
     }
 
 
     private void donePressed() {
-        ((MapsActivity)getActivity()).currentState = MapsActivity.AppState.START_FLIGHT;
+        ((MapsActivity) getActivity()).currentState = MapsActivity.AppState.START_FLIGHT;
 
         ((MapsActivity) getActivity()).doneButtonPressed(this);
     }

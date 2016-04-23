@@ -12,17 +12,10 @@ import android.widget.TextView;
 /**
  * Created by tco on 16-04-23.
  */
-public class IntroScreenFragment extends Fragment implements View.OnClickListener {
+public class IntroScreenFragment extends Fragment {
 
     public static final String TAG = "IntroScreenFragment";
     private Context context;
-
-    private Button btnPlanFlight;
-    private Button btnFlyNow;
-    private Button btnDebrief;
-
-    private View.OnClickListener onClickListener;
-
 
 
     public static IntroScreenFragment newInstance(){
@@ -35,34 +28,26 @@ public class IntroScreenFragment extends Fragment implements View.OnClickListene
             savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_intro_screen, container, false);
 
-        btnPlanFlight = (Button) view.findViewById(R.id.btn_plan_flight);
-        btnFlyNow = (Button) view.findViewById(R.id.btn_fly_now);
-        btnDebrief = (Button) view.findViewById(R.id.btn_debrief);
+        TextView tempTextView = (TextView) view.findViewById(R.id.title_textview);
+        tempTextView.setText("Another Title");
 
-        btnPlanFlight.setOnClickListener(this);
-        btnFlyNow.setOnClickListener(this);
-        btnDebrief.setOnClickListener(this);
+        Button doneButton = (Button) view.findViewById(R.id.done_button);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                donePressed();
+            }
+        });
 
         return view;
 
     }
 
 
-    @Override
-    public void onClick(View v) {
 
-        switch(v.getId()){
-            case(R.id.btn_plan_flight):
-                ((MapsActivity)getActivity()).planFlightPressed();
-                break;
-            case (R.id.btn_fly_now):
-                ((MapsActivity)getActivity()).currentState = MapsActivity.AppState.FLIGHT_CHECK;
-                ((MapsActivity)getActivity()).flyNowButtonPressed();
-                break;
-            case(R.id.btn_debrief):
-                ((MapsActivity)getActivity()).debriefButtonPressed();
-                break;
-        }
-
+    private void donePressed() {
+        ((MapsActivity)getActivity()).doneButtonPressed(this);
     }
+
+
 }
