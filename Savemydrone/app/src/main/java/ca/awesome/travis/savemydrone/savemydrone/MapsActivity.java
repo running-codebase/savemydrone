@@ -37,6 +37,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng currentLngLat;
     private GoogleMap mMap;
     private static final int circleRadius = 1000000;
+    private static final int KILOMETRE = 1000;
+    public SharedPreferences sharedPreferences;
 
 
 
@@ -45,14 +47,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        sharedPreferences = new SharedPreferences();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-//        initializeLocationManager();
-        goToIntroFragment();
-//        goToFlightDetailsFragment();
+        initializeLocationManager();
+//        goToIntroFragment();
+        goToFlightDetailsFragment();
 
 
     }
@@ -107,18 +111,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    private void updateMap(){
+
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        LatLng sydney = new LatLng(-10, 151);
+//        LatLng sydney = new LatLng(-10, 151);
 //        moveToUserGPS();
 //        addCircle(sydney, "Sydney", circleRadius, 10);
 //        addPolygon(sydney);
 //        addMarker(new LatLng(-34, 151), "marker title");
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
 
     }
