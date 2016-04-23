@@ -52,11 +52,11 @@ public class FlightDetailsFragment extends Fragment {
 
 
     private void donePressed() {
-        if (!flightRangeEditText.getText().equals("")){
+        if (!flightRangeEditText.getText().toString().matches("")){
             ((MapsActivity)getActivity()).sharedPreferences.setFlightRange(Float.parseFloat(flightRangeEditText.getText().toString()));
         }
 
-        if (!flightTimeEditText.getText().equals("")){
+        if (!flightTimeEditText.getText().toString().matches("")){
             ((MapsActivity)getActivity()).sharedPreferences.setFlightTime(Integer.parseInt(flightTimeEditText.getText().toString()));
         }
 

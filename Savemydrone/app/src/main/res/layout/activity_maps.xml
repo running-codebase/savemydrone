@@ -1,4 +1,9 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
@@ -6,3 +11,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ca.awesome.travis.savemydrone.savemydrone.MapsActivity" />
+
+
+    <FrameLayout
+        android:id="@+id/popup_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+    />
+
+</RelativeLayout>
