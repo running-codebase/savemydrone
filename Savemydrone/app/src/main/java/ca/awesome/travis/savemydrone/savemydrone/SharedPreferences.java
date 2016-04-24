@@ -10,7 +10,7 @@ import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Airspace;
  */
 public class SharedPreferences {
 
-    private int flightTime = 5;
+    private int flightTime = 1;
     private float flightRange = 3;
     private List<Airport> airports;
     private List<Airspace> airspaces;

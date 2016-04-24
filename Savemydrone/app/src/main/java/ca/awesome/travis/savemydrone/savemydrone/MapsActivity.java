@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.AirportsRetrofitApi;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.AirspacesRetrofitApi;
@@ -85,6 +87,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng currentLngLat;
     private GoogleMap mMap;
 
+    TextToSpeech tts;
+
 
     public SharedPreferences sharedPreferences;
     public AirspacesRetrofitApi airspacesRetrofitApi;
@@ -112,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-
+        initVoice();
         initializeLocationManager();
         downloadData(currentLngLat);
 
@@ -164,6 +168,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             dataDownloaded = true;
         }
 
+    }
+
+    private void initVoice(){
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener(){
+
+            @Override
+            public void onInit(int status) {
+                // TODO Auto-generated method stub
+                if(status == TextToSpeech.SUCCESS){
+                    int result=tts.setLanguage(Locale.US);
+                    if(result==TextToSpeech.LANG_MISSING_DATA ||
+                            result==TextToSpeech.LANG_NOT_SUPPORTED){
+                        Log.e("error", "This Language is not supported");
+                    }
+                    else{
+                        ConvertTextToSpeech("It's working");
+                    }
+                }
+                else
+                    Log.e("error", "Initilization Failed!");
+            }
+        });
+        tts.setLanguage(Locale.US);
     }
 
     private void goToIntroFragment(){
@@ -415,19 +442,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setUpAndStartTimer(int minutes){
 
-//        int milliseconds = minutes * 60 *1000;
+        int milliseconds = minutes * 60 *1000;
 
-        int milliseconds = 3000;
+//        int milliseconds = 3000;
 
 
         CountDownTimer cT =  new CountDownTimer(milliseconds, 1000) {
 
             public void onTick(long millisUntilFinished) {
 
-
                 String v = String.format("%02d", millisUntilFinished/60000);
                 int va = (int)( (millisUntilFinished%60000)/1000);
                 bottomInstructionTextview.setText("" +v+":"+String.format("%02d",va));
+
+                playSetAudio(millisUntilFinished);
+
+
+
             }
 
             public void onFinish() {
@@ -440,7 +471,46 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         timerRunning = true;
 
 
+
     }
+
+    private void playSetAudio(long millisUntilFinished) {
+
+
+        int seconds = (int) millisUntilFinished / 1000;
+        Log.d("Timer", "value: " +seconds);
+
+
+        if (seconds == 1) {
+            ConvertTextToSpeech("Flight Completed");
+        } else if (seconds == 15) {
+            ConvertTextToSpeech("15 second flight warning");
+
+        } else if (seconds == 30) {
+            ConvertTextToSpeech("30 second flight warning");
+
+        } else if (seconds == 50) {
+            ConvertTextToSpeech("Wind has increased to 20 Kilometres North West");
+
+        } else if (seconds == 59) {
+            ConvertTextToSpeech("Flight Initiated");   
+        }
+
+    }
+
+
+
+    private void ConvertTextToSpeech(String text) {
+        // TODO Auto-generated method stub
+//        text = et.getText().toString();
+        if(text==null||"".equals(text))
+        {
+            text = "Content not available";
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }else
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
 
     ///----------------------------------
 
