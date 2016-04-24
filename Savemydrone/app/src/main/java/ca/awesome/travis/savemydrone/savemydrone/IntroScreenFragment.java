@@ -56,6 +56,7 @@ public class IntroScreenFragment extends Fragment implements View.OnClickListene
         switch (v.getId()) {
             case (R.id.btn_plan_flight):
                 ((MapsActivity) getActivity()).planFlightPressed();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
             case (R.id.btn_fly_now):
                 ((MapsActivity) getActivity()).currentState = MapsActivity.AppState.FLIGHT_CHECK;

@@ -2,19 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    >
 
     <RelativeLayout
         android:id="@+id/title_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#ffffff">
         <ImageView
             android:id="@+id/logo"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerInside"
             android:src="@drawable/flight_checkr_logo"
-            android:layout_margin="30dp"/>
+            android:layout_margin="30dp"
+            android:visibility="gone" />
 
 
         <TextView
@@ -40,19 +43,25 @@
                 android:id="@+id/btn_plan_flight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="Plan a future flight" />
 
             <Button
                 android:id="@+id/btn_fly_now"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+
                 android:text="Fly now!" />
 
             <Button
                 android:id="@+id/btn_debrief"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Debrief flight" />
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+
+                android:text="Debrief flight"
+                android:visibility="invisible" />
 
         </LinearLayout>
 

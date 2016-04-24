@@ -2,19 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#ffffff">
+
 
     <RelativeLayout
         android:id="@+id/title_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Title"
+            android:text="Flight Details"
             android:layout_centerHorizontal="true"
             android:id="@+id/title_textview" />
 
@@ -28,7 +34,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_below="@+id/title_relative_layout"
-        android:text="This is the body text. This is the body text This is the body text This is the body text This is the body text"
+        android:text="Set the details for your drones range and flight time."
         android:id="@+id/description_textview" />
 
 
@@ -114,8 +120,12 @@
         android:layout_height="wrap_content"
         android:text="Done"
         android:id="@+id/done_button"
-        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+
+        android:layout_below="@+id/flight_time_relative_layout"
          />
+
+    </RelativeLayout>
 
 
 

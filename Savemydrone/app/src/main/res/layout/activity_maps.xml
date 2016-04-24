@@ -17,6 +17,7 @@
         android:id="@+id/popup_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:layout_margin="20dp"
     />
 
@@ -26,8 +27,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp"
-        android:background="#61c9acad">
+        android:layout_marginTop="10dp"
+        android:background="#bbc9acad"
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -109,6 +111,17 @@
             android:id="@+id/bottom_instruction_textview"
             android:textColor="#ffffff"
             />
+
+        <Chronometer
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#ffffff"
+
+            android:id="@+id/countdown_chronometer"
+            android:visibility="invisible"/>
+
+
     </RelativeLayout>
 
 

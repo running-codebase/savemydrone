@@ -7,6 +7,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,8 +70,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private boolean locationZoomed = false;
     private boolean dataDownloaded = false;
+    private boolean timerRunning = false;
 
 
+    private Chronometer chronometer;
     private TextView bottomInstructionTextview;
     private RelativeLayout bottomDetailsRelativeLayout;
 
@@ -89,6 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        chronometer = (Chronometer) findViewById(R.id.countdown_chronometer);
         bottomInstructionTextview = (TextView) findViewById(R.id.bottom_instruction_textview);
         bottomDetailsRelativeLayout = (RelativeLayout) findViewById(R.id.bottom_details_relative_layout);
         bottomDetailsRelativeLayout.setOnClickListener(this);
@@ -210,6 +216,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    public void setFlightTime(){
+        chronometer.setBase(SystemClock.elapsedRealtime());
+//        chronometer.setFormat("Formated Time - %s");
+        chronometer.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -298,6 +310,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 break;
 
             case IN_FLIGHT:
+                setFlightTime();
 
                 break;
 
@@ -369,10 +382,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private void setUpAndStartTimer(int minutes){
+
+//        int milliseconds = minutes * 60 *1000;
+
+        int milliseconds = 3000;
+
+
+        CountDownTimer cT =  new CountDownTimer(milliseconds, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+
+                String v = String.format("%02d", millisUntilFinished/60000);
+                int va = (int)( (millisUntilFinished%60000)/1000);
+                bottomInstructionTextview.setText("" +v+":"+String.format("%02d",va));
+            }
+
+            public void onFinish() {
+                bottomInstructionTextview.setText("CREATE BREIFING");
+                timerRunning = false;
+                currentState = AppState.FLIGHT_OVER;
+            }
+        };
+        cT.start();
+        timerRunning = true;
+
+
+    }
 
     ///----------------------------------
 
     public void planFlightPressed(){
+
+        //Zoom to a useful area and allow free explore
+
         //TODO implement
     }
 
@@ -386,6 +430,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onClick(View v) {
+        if (timerRunning) {
+            return;
+        }
 
         if (v.getId() == R.id.bottom_details_relative_layout){
             switch(currentState){
@@ -400,8 +447,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     break;
 
                 case START_FLIGHT:
-                    bottomInstructionTextview.setText("IN FLIGHT");
+                    bottomInstructionTextview.setText("");
                     currentState = AppState.IN_FLIGHT;
+                    //setFlightTime();
+                    //chronometer.start();
+                    setUpAndStartTimer(sharedPreferences.getFlightTime());
+
+
                     break;
 
                 case IN_FLIGHT:
