@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#ffffff">
+
+
+    <RelativeLayout
+        android:id="@+id/header_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Flight Report"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/title_textview" />
+
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/title_relative_layout"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_relative_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Flight Number and Title"
+                android:id="@+id/title_description" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="100dp"
+                android:layout_marginLeft="10dp"
+
+                android:layout_below="@+id/title_description"
+                android:layout_centerVertical="true"
+                android:hint="Flight Number and Title"
+                android:id="@+id/title_edit_text" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+
+                android:id="@+id/image_pic"
+                android:src="@drawable/thumbsup" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/body_relative_layout"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title_relative_layout">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+
+                android:text="Flight Description and Notes"
+                android:id="@+id/body_title_description" />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_margin="10dp"
+                android:inputType="textMultiLine"
+                android:hint="Notes, flight details, potential hazards and messages for future flyers."
+                android:ems="10"
+                android:id="@+id/body_edit_text"
+                android:layout_below="@+id/body_title_description"
+                 />
+
+        </RelativeLayout>
+
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/body_relative_layout"
+            android:text="Done"
+            android:id="@+id/done_button"
+            android:layout_margin="10dp"
+
+         />
+
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

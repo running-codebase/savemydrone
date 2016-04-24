@@ -40,6 +40,7 @@ import ca.awesome.travis.savemydrone.savemydrone.clouddata.AirportsRetrofitApi;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.AirspacesRetrofitApi;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Airport;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Airspace;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.FlightReport;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.LngLatBox;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.SaveMyDroneApi;
 import retrofit.Call;
@@ -51,6 +52,7 @@ import retrofit.Retrofit;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
 
 
+    private static LatLng debugLngLat = new LatLng( -37.413001, 144.912844);
 
     private static final int circleRadius = 1000000;
     private static final int KILOMETRE = 1000;
@@ -71,6 +73,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean locationZoomed = false;
     private boolean dataDownloaded = false;
     private boolean timerRunning = false;
+
+    private boolean isDebug = true;
 
 
     private Chronometer chronometer;
@@ -123,7 +127,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
-                currentLngLat = new LatLng(location.getLatitude(), location.getLongitude());
+
+                if (isDebug){
+                    currentLngLat = debugLngLat;
+                } else {
+                    currentLngLat = new LatLng(location.getLatitude(), location.getLongitude());
+                }
+
                 //addMarker(currentLngLat, "You are Here");
                 updateMap();
             }
@@ -193,6 +203,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private void goToFlightReportFragment(){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        Fragment fragment = null;
+
+        fragment = (Fragment) new FlightReportFragment().newInstance();
+        fragmentTransaction.addToBackStack(FlightReportFragment.TAG);
+        fragmentTransaction.replace(R.id.popup_frame_layout, fragment,
+                IntroScreenFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public void debriefComplete(FlightReport flightReport) {
+        //Add marker
+
+        addMarker(currentLngLat, flightReport.getTitle());
+
+    }
+
 
     private void updateMap() {
 
@@ -204,6 +233,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 locationZoomed = true;
             }
         }
+
+
         //Draw the circle
         //make web call
         //zoom to relevant area
@@ -462,7 +493,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     break;
 
                 case FLIGHT_OVER:
-                    bottomInstructionTextview.setText("CREATE BREIFING");
+                    goToFlightReportFragment();
+                    bottomDetailsRelativeLayout.setVisibility(View.INVISIBLE);
                     break;
             }
         }
