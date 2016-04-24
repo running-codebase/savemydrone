@@ -87,6 +87,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public AirspacesRetrofitApi airspacesRetrofitApi;
     public AirportsRetrofitApi airportsRetrofitApi;
 
+    public Weather relevantWeather;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
                 currentLngLat = new LatLng(location.getLatitude(), location.getLongitude());
+                updateWeather();
                 //addMarker(currentLngLat, "You are Here");
                 updateMap();
             }
@@ -231,6 +234,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+
+
     public void doneButtonPressed(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -339,6 +344,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // get the first weather source (because they've been sorted)
         for (Weather weather : weatherSources.keySet()) {
+
+            relevantWeather = weather;
+
             CardView c = (CardView) findViewById(R.id.card_view);
             c.setVisibility(View.VISIBLE);
 
@@ -351,7 +359,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             TextView sunset = (TextView) findViewById(R.id.sunset);
 
             wind.setText(windText);
-            windDirection.setText(String.format("%d° (%s)", weather.getWindDirectionDeg(), "NW"));
+            windDirection.setText(String.format("%d° (%s)", weather.getWindDirectionDeg(), degreeToCardinalPoint(weather.getWindDirectionDeg())));
 
             List<Sky> clouds = weather.getSky();
 
@@ -364,6 +372,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             sunset.setText("5:41 PM");
         }
+    }
+
+    private String degreeToCardinalPoint(int degree){
+        String directions[] = {"N", "NE", "E", "SE", "S", "SW", "NW"};
+        return directions[ (int)Math.round((  ((double)degree % 360) / 45)) ];
     }
 
 
