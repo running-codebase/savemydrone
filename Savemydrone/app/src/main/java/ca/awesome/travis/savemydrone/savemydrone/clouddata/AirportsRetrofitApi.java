@@ -56,7 +56,7 @@ public class AirportsRetrofitApi implements Callback<List<Airport>> {
         sharedPreferences.setAirports(response.body());
 //        List<Airport> airports = sharedPreferences.getAirports();
         mapsActivity.drawAirports();
-
+        mapsActivity.updateWeather();
     }
 
 
