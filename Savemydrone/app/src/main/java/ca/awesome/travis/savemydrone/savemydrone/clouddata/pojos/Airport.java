@@ -1,5 +1,7 @@
 package ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -172,6 +174,28 @@ public class Airport {
         this.additionalProperties.put(name, value);
     }
 
+
+    public double getDistanceFromPoint(LatLng point) {
+        LatLng airportPosition = new LatLng(latitude, longitude);
+
+        final int earthRadius = 6371;
+
+        double deltaLat = degToRad(airportPosition.latitude - point.latitude);
+        double deltaLon = degToRad(airportPosition.longitude - point.longitude);
+
+
+        double a =
+                Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                        Math.cos(degToRad(point.latitude)) * Math.cos(degToRad(airportPosition.latitude)) *
+                                Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = earthRadius * c; // Distance in km
+        return d;
+    }
+
+    private double degToRad(double deg) {
+        return deg * (Math.PI / 180);
+    }
 
 
 }
