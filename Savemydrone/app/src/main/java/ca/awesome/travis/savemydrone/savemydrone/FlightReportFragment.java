@@ -65,6 +65,7 @@ public class FlightReportFragment  extends Fragment {
 //        }
 
             ((MapsActivity) getActivity()).doneButtonPressed(this);
+        ((MapsActivity) getActivity()).cardView.setVisibility(View.VISIBLE);
     }
 
 
