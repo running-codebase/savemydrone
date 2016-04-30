@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
@@ -34,9 +35,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.AirportsRetrofitApi;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.AirspacesRetrofitApi;
@@ -45,6 +49,8 @@ import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Airspace;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.FlightReport;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.LngLatBox;
 import ca.awesome.travis.savemydrone.savemydrone.clouddata.SaveMyDroneApi;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Sky;
+import ca.awesome.travis.savemydrone.savemydrone.clouddata.pojos.Weather;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -54,7 +60,12 @@ import retrofit.Retrofit;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
 
 
-    private static LatLng debugLngLat = new LatLng( -37.413001, 144.912844);
+//    private static LatLng debugLngLat = new LatLng( -37.413001, 144.912844);
+
+    private static LatLng debugLngLat = new LatLng(  -37.492854, 144.876110);
+
+
+
 
     private static final int circleRadius = 1000000;
     private static final int KILOMETRE = 1000;
@@ -82,6 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Chronometer chronometer;
     private TextView bottomInstructionTextview;
     private RelativeLayout bottomDetailsRelativeLayout;
+    public CardView cardView;
 
     private LocationManager locationManager;
     private LatLng currentLngLat;
@@ -183,7 +195,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.e("error", "This Language is not supported");
                     }
                     else{
-                        ConvertTextToSpeech("It's working");
+                        //ConvertTextToSpeech("It's working");
                     }
                 }
                 else
@@ -246,6 +258,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Add marker
 
         addMarker(currentLngLat, flightReport.getTitle());
+        bottomInstructionTextview.setText("FLIGHT CHECK");
+        bottomDetailsRelativeLayout.setVisibility(View.VISIBLE);
+
 
     }
 
@@ -267,6 +282,101 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //zoom to relevant area
 
     }
+
+    /*
+ * Draw the weather into the weather section?
+ */
+    public void updateWeather() {
+        Map<Weather, Double> weatherSources = new HashMap<Weather, Double>();
+
+        // iterate through all the airports to see if we have any weather to use
+        for (Airport airport : sharedPreferences.getAirports()) {
+            Weather airportWeather = airport.getWeather();
+
+            if (airportWeather == null || airportWeather.getRawMetar() == null)
+                continue;
+
+            double distance = 0;
+
+            if (currentLngLat != null)
+                distance = airport.getDistanceFromPoint(currentLngLat);
+
+            weatherSources.put(airportWeather, distance);
+        }
+
+        Weather fakeWeather = new Weather();
+        fakeWeather.setAltimeterIn(29.92);
+        fakeWeather.setDewpointC(10);
+        fakeWeather.setObservationTime("now-ish");
+        fakeWeather.setRawMetar("YMML WEATHER ABCDD");
+        fakeWeather.setTempC(25);
+        fakeWeather.setVisibilitySmi(5.0);
+        fakeWeather.setWindDirectionDeg(180);
+        fakeWeather.setWindSpeedKt(15);
+        fakeWeather.setWindGustKt(20);
+
+        Sky s = new Sky();
+        s.setCloudBaseFtAgl(1500);
+        s.setSkyCover("FEW");
+
+        Sky s2 = new Sky();
+        s2.setCloudBaseFtAgl(5000);
+        s.setSkyCover("OVC");
+
+        List<Sky> sky = new ArrayList<Sky>();
+        sky.add(s);
+        sky.add(s2);
+
+        fakeWeather.setSky(sky);
+
+        weatherSources.put(fakeWeather, 5.2);
+
+        // we don't want to do anything else if we don't have any weather
+        if (weatherSources.isEmpty())
+            return;
+
+        // sort the weather sources by their distances
+        weatherSources = MapUtil.sortByValue(weatherSources);
+
+        // get the first weather source (because they've been sorted)
+        for (Weather weather : weatherSources.keySet()) {
+
+            cardView = (CardView) findViewById(R.id.card_view);
+
+            if (currentState != AppState.PRE_FLIGHT && currentState != AppState.PRE_FLIGHT ) {
+                cardView.setVisibility(View.VISIBLE);
+            }
+
+            int windGusts = fakeWeather.getWindGustKt();
+            String windText = String.format("%s%s kt", weather.getWindSpeedKt(), windGusts > 0 ? "-" + windGusts : "");
+
+            TextView wind = (TextView) findViewById(R.id.wind);
+            TextView windDirection = (TextView) findViewById(R.id.windDirection);
+            TextView cloud = (TextView) findViewById(R.id.cloud);
+            TextView sunset = (TextView) findViewById(R.id.sunset);
+
+            wind.setText(windText);
+            windDirection.setText(String.format("%d° (%s)", weather.getWindDirectionDeg(), degreeToCardinalPoint(weather.getWindDirectionDeg())));
+
+            List<Sky> clouds = weather.getSky();
+
+            if (clouds.isEmpty()) {
+                cloud.setText("No cloud");
+            } else {
+                Sky individualCloud = clouds.get(0);
+                cloud.setText(individualCloud.getSkyCover() +  " abv " + individualCloud.getCloudBaseFtAgl() + " ft");
+            }
+
+            sunset.setText("5:41 PM");
+        }
+    }
+
+    private String degreeToCardinalPoint(int degree){
+        String directions[] = {"N", "NE", "E", "SE", "S", "SW", "NW"};
+        return directions[ (int)Math.round((  ((double)degree % 360) / 45)) ];
+    }
+
+
 
     public void setFlightRadius(){
         if (currentLngLat!= null){
@@ -306,6 +416,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         updateBottomBarView();
 
         updateMap();
+        updateWeather();
     }
 
 
@@ -365,15 +476,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case START_FLIGHT:
                 bottomInstructionTextview.setText("START FLIGHT");
                 bottomDetailsRelativeLayout.setVisibility(View.VISIBLE);
+                updateWeather();
                 break;
 
             case IN_FLIGHT:
                 setFlightTime();
+                updateWeather();
 
                 break;
 
             case FLIGHT_OVER:
-                bottomInstructionTextview.setText("CREATE BREIFING");
+                bottomInstructionTextview.setText("CREATE BRIEFING");
+                updateWeather();
 
                 break;
         }
@@ -442,9 +556,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setUpAndStartTimer(int minutes){
 
-        int milliseconds = minutes * 60 *1000;
-
-//        int milliseconds = 3000;
+//        int milliseconds = minutes * 60 *1000;
+//
+        int milliseconds = 40000;
 
 
         CountDownTimer cT =  new CountDownTimer(milliseconds, 1000) {
@@ -462,7 +576,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
             public void onFinish() {
-                bottomInstructionTextview.setText("CREATE BREIFING");
+                bottomInstructionTextview.setText("CREATE BRIEFING");
                 timerRunning = false;
                 currentState = AppState.FLIGHT_OVER;
             }
@@ -483,17 +597,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (seconds == 1) {
             ConvertTextToSpeech("Flight Completed");
-        } else if (seconds == 15) {
-            ConvertTextToSpeech("15 second flight warning");
+        } else if (seconds == 10) {
+            ConvertTextToSpeech("10 second flight warning");
+
+        } else if (seconds == 20) {
+            ConvertTextToSpeech("Wind has increased to 20 Knots South");
 
         } else if (seconds == 30) {
             ConvertTextToSpeech("30 second flight warning");
 
-        } else if (seconds == 50) {
-            ConvertTextToSpeech("Wind has increased to 20 Kilometres North West");
-
-        } else if (seconds == 59) {
-            ConvertTextToSpeech("Flight Initiated");   
+        }  else if (seconds == 39) {
+            ConvertTextToSpeech("Flight Initiated");
         }
 
     }
@@ -543,6 +657,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 case FLIGHT_CHECK:
                     bottomDetailsRelativeLayout.setVisibility(View.INVISIBLE);
+                    cardView.setVisibility(View.INVISIBLE);
                     goToFlightCheckFragment();
 
                     break;
@@ -558,13 +673,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     break;
 
                 case IN_FLIGHT:
-                    bottomInstructionTextview.setText("CREATE BREIFING");
+                    bottomInstructionTextview.setText("CREATE BRIEFING");
                     currentState = AppState.IN_FLIGHT;
                     break;
 
                 case FLIGHT_OVER:
                     goToFlightReportFragment();
                     bottomDetailsRelativeLayout.setVisibility(View.INVISIBLE);
+                    cardView.setVisibility(View.INVISIBLE);
                     break;
             }
         }
