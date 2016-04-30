@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/logo"
             android:layout_centerHorizontal="true"
-            android:text="Helping you to maximise mission success and operate safely"
+            android:text="We make sure your drone comes back in one piece."
             android:gravity="center"
             android:layout_margin="10dp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -54,14 +54,6 @@
 
                 android:text="Fly now!" />
 
-            <Button
-                android:id="@+id/btn_debrief"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_margin="10dp"
-
-                android:text="Debrief flight"
-                android:visibility="invisible" />
 
         </LinearLayout>
 

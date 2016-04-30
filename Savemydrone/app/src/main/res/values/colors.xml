@@ -8,6 +8,6 @@
     <color name="transparentNoFlyZones">#66ffa500</color>
     <color name="flightRadius">#664488ff</color>
 
-
+    <color name="secondaryText">#66000000</color>
 
 </resources>

@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="10dp"
             android:text="Flight Details"
             android:layout_centerHorizontal="true"
             android:id="@+id/title_textview" />
@@ -67,8 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/flight_distance_description_textview"
+            android:text="3"
 
-            android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/flight_range_editText"
             android:hint="Kilometres"/>
@@ -105,8 +106,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/flight_time_description_textview"
+            android:text="0:40"
 
-            android:inputType="number"
+
             android:ems="10"
             android:id="@+id/flight_time_editText"
             android:hint="Minutes"/>
